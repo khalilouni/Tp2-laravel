@@ -1,20 +1,23 @@
 @extends('layouts.app')
 @section('content') 
-    <div class="container"> 
-        <div class="row mt-5"> 
-            <div class="col-12 text-white m-5"> 
-                
-                <p><strong>Nom : </strong> {!! $etudiant->nom !!}</p> <hr> 
-                <p><strong>Prenom :</strong>  {!! $etudiant->prenom !!}</p> <hr>
-                <p> <strong>Date de naissance :</strong> {!! $etudiant->dateDeNaissance !!}</p> <hr>
-                <p><strong>Adresse :</strong> {!! $etudiant->adresse !!}</p> <hr>
-                <p><strong>Phone :</strong> {!! $etudiant->phone !!}</p> <hr>
-                <p><strong>Email :</strong> {!! $etudiant->email !!}</p> <hr>
-                <p><strong>Ville :</strong> {!! $etudiant->EtudiantVille->nomVille !!}</p> <hr>
-                
+
+
+
+
+<div class="container">
+        <h3 class="mt-4">Listes d'articles</h3>
+        <div class="row">
+            @forelse($article as $articles) 
+            <div class="card col-5 p-0 m-3">
+                <div class="card-header py-2 bg-primary">
+                    <h1>{{ ucfirst($articles->titre) }} </h1>
+                </div>
+                <div class="card-body py-5">
+                    <p class="card-text">{{ ucfirst($articles->contenu) }}</p>
+            @if(Auth::user()->id == $articles->user_id) 
                 <div class="d-flex justify-content-around">
-                    <a href="{{ route('liste.etudiant') }}" class="btn btn-success">Retourner</a> 
-                    <a href="/edit/{{ $etudiant->id }}" class="btn btn-success">Modifier</a>
+                    
+                    <a href="/edit-article/{{ $articles->id }}" class="btn btn-success">Modifier</a>
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Supprimer</button>
                 </div>
 
@@ -27,11 +30,11 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                Vouler vous vraiment effacer {!! $etudiant->nom !!} {!! $etudiant->prenom !!}
+                                @lang('lang.supprimer') 
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                                <form action="{{ route('delete', $etudiant->id) }}" method="POST">
+                                <form action="{{ route('delete.article', $articles->id) }}" method="POST">
                                     @csrf
                                     @method('delete')
                                     <button type="submit" class="btn btn-primary">Supprimer</button>
@@ -40,7 +43,18 @@
                         </div> 
                     </div> 
                 </div>
-            </div> 
-        </div> 
+                    
+                @endif
+                </div>
+            </div>
+            @empty
+                <p class="text-warning">Aucun article disponible </p>
+            @endforelse
+            
+        </div>
     </div>
+
+
+
+
 @endsection

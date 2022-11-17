@@ -20,4 +20,5 @@ class Etudiant extends Model
         return $this->hasOne('App\Models\Ville', 'id' ,'ville_id');
 
     }
+    
 }

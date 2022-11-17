@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Etudiant;
 use App\Models\Ville;
 use Illuminate\Http\Request;
-
+use Auth;
 use DB;
 
 
@@ -19,8 +19,13 @@ class EtudiantController extends Controller
     public function index()
     {
 
-        $etudiants = Etudiant::select()->paginate(5);
-        return view('etudiant.liste', ['etudiants' => $etudiants]);
+       
+
+        if(Auth::check()){
+            $etudiants = Etudiant::select()->paginate(5);
+            return view('etudiant.liste', ['etudiants' => $etudiants]);
+        }
+        return redirect(route('login'))->withErrors('Vous devez vous connecté pour acceder a la liste des etudiants');
 
     }
 
@@ -43,6 +48,20 @@ class EtudiantController extends Controller
      */
     public function store(Request $request)
     {
+        exit($request->dateDeNaissance);
+        $request->validate([
+          
+                'nom' => 'required',
+                'prenom' => 'required',
+                'adresse' => 'required',
+                'phone' => 'required|numeric|digits:10',
+                'dateDeNaissance' => 'required|date_format:m/d/Y',
+                'ville_id' => 'required',
+                'email' => 'required|email|unique:etudiants',
+                
+        ]);
+
+
         $newEtudiant = Etudiant::create([
 
             'nom' => $request->nom,
@@ -100,7 +119,7 @@ class EtudiantController extends Controller
             'email' => $request->email,
             'ville_id' => $request->ville_id
         ]);
-        return redirect(route('index'));
+        return redirect(route('liste.etudiant'));
     }
 
     /**
@@ -113,7 +132,7 @@ class EtudiantController extends Controller
     {
         $etudiant->delete();
 
-        return redirect(route('index'));
+        return redirect(route('liste.etudiant'));
 
     }
 

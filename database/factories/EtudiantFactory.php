@@ -15,23 +15,17 @@ class EtudiantFactory extends Factory
      */
     public function definition()
     {
-        $villes = Ville::select('id')->get();
-        $newVille = array();
-        $ville = $villes;
-        for ($i=0; $i < count($villes) ; $i++) { 
-            $newVille [] = $villes[$i]['id'];
-        }
-        $random = array_rand($newVille);
 
         return [
            
             'nom' => $this->faker->lastName,
             'prenom' => $this->faker->firstName,
             'email' => $this->faker->unique()->email,
-            'dateDeNaissance' => $this->faker->dateTimeThisCentury->format('Y-m-d'),
+            'dateDeNaissance' => $this->faker->dateTimeThisCentury->format('y-m-d'),
             'phone' => $this->faker->phoneNumber,
             'adresse' => $this->faker->address,
-            'ville_id' => $random
+            'ville_id' => Ville::all()->random()->id
+
         ];
     }
 }

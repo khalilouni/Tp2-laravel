@@ -2,7 +2,7 @@
 @section('content') 
 
 <div class="container">
-        <form action="" method="POST" class="mt-5">
+        <form action="" method="POST" class="mt-5 text-white">
             @csrf
             @method('PUT')
             <div class="row mb-3 mt-2">
@@ -60,7 +60,7 @@
             
             <div class="d-flex justify-content-around">
                 <input type="submit" class="btn btn-success " value="Modifier">
-                <a href="{{ route('index') }}" class="btn btn-outline-danger">Retourner</a> 
+                <a href="{{ route('liste.etudiant') }}" class="btn btn-outline-danger">Retourner</a> 
 
             </div>
         </form>

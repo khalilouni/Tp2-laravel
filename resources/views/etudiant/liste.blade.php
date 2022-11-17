@@ -2,9 +2,9 @@
 @section('content') 
 
 
-<div class="container">
-    <div class="row mt-5 pb-5">
-        <h3 class="display-5">Collège {{ config('app.name') }}</h3>
+    <div class="container">
+        <div class="row mt-5 pb-5">
+            <h3 class="display-5">Collège {{ config('app.name') }}</h3>
             <hr>
             <div class="card">
                 <div class="card-header">
@@ -18,10 +18,11 @@
                     @empty
                         <p class="text-warning">Aucun article de blog disponible </p>
                     @endforelse
-            </div>   
+                </div>
+            </div>
             {{$etudiants}}
+        </div>
     </div>
-</div>
 
 
 

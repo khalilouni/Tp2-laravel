@@ -14,7 +14,9 @@ class VilleController extends Controller
      */
     public function index()
     {
-        //
+        
+        return 'hello';
+
     }
 
     /**
